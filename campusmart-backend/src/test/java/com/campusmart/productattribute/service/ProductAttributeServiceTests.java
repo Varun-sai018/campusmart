@@ -127,7 +127,6 @@ class ProductAttributeServiceTests {
     @Test
     void createAttribute_rejectsNonOwner() {
         when(productRepository.findById(10L)).thenReturn(Optional.of(product));
-        when(productAttributeRepository.countByProduct(product)).thenReturn(0L);
 
         assertThatThrownBy(() -> productAttributeService.createAttribute(
                 10L,
