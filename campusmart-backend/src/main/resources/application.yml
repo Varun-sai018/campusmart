@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: campusmart-backend
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
   datasource:
     url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:campusmart}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: ${DB_USERNAME:campusmart}
@@ -26,3 +30,11 @@ app:
     expiration-ms: ${JWT_EXPIRATION_MS:86400000}
   cors:
     allowed-origins: ${FRONTEND_URL:http://localhost:5173}
+  storage:
+    provider: local
+    upload-dir: uploads
+    public-base-url: /uploads
+    products-subdir: products
+    allowed-content-types: image/jpeg,image/png,image/webp
+    max-file-size-bytes: 5242880
+    max-images-per-product: 5

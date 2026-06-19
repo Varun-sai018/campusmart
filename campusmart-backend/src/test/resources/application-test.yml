@@ -14,3 +14,5 @@ app:
     expiration-ms: 86400000
   cors:
     allowed-origins: http://localhost:5173
+  storage:
+    upload-dir: ${java.io.tmpdir}/campusmart-test-uploads

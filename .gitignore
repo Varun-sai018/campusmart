@@ -30,3 +30,6 @@ dist/
 # Docker
 docker-data/
 
+# Uploads
+uploads/
+
