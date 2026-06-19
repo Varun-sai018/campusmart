@@ -30,6 +30,13 @@ export const productAPI = {
     return response.data;
   },
 
+  getProductsBySeller: async (sellerId, page = 0, size = 50) => {
+    const response = await axiosInstance.get(`/api/products/seller/${sellerId}`, {
+      params: { page, size },
+    });
+    return response.data;
+  },
+
   searchProducts: async (keyword, categoryId, sellerId, page = 0, size = 20) => {
     const response = await axiosInstance.get('/api/products/search', {
       params: { keyword, categoryId, sellerId, page, size },
@@ -70,6 +77,38 @@ export const categoryAPI = {
 export const productImageAPI = {
   getProductImages: async (productId) => {
     const response = await axiosInstance.get(`/api/products/${productId}/images`);
+    return response.data;
+  },
+
+  uploadImage: async (productId, file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await axiosInstance.post(`/api/products/${productId}/images`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data;
+  },
+
+  deleteProductImage: async (imageId) => {
+    const response = await axiosInstance.delete(`/api/products/images/${imageId}`);
+    return response.data;
+  },
+};
+
+// Product attribute API endpoints
+export const productAttributeAPI = {
+  getProductAttributes: async (productId) => {
+    const response = await axiosInstance.get(`/api/products/${productId}/attributes`);
+    return response.data;
+  },
+
+  createProductAttribute: async (productId, attributeData) => {
+    const response = await axiosInstance.post(`/api/products/${productId}/attributes`, attributeData);
+    return response.data;
+  },
+
+  deleteProductAttribute: async (attributeId) => {
+    const response = await axiosInstance.delete(`/api/products/attributes/${attributeId}`);
     return response.data;
   },
 };

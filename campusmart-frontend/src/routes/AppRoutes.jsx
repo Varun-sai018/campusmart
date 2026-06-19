@@ -7,9 +7,14 @@ import WishlistPage from '../pages/WishlistPage.jsx';
 import CartPage from '../pages/CartPage.jsx';
 import OrdersPage from '../pages/OrdersPage.jsx';
 import NotificationsPage from '../pages/NotificationsPage.jsx';
+import SellerDashboardPage from '../pages/SellerDashboardPage.jsx';
+import MyProductsPage from '../pages/MyProductsPage.jsx';
+import AddProductPage from '../pages/AddProductPage.jsx';
+import EditProductPage from '../pages/EditProductPage.jsx';
 import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
 import { ProtectedRoute } from '../components/ProtectedRoute';
+import { SellerRoute } from '../components/SellerRoute';
 import { useAuth } from '../hooks/useAuth';
 
 function AppRoutes() {
@@ -28,12 +33,25 @@ function AppRoutes() {
         }
       >
         <Route index element={<HomePage />} />
-        <Route path="/products/:productId" element={<ProductDetailsPage />} />
-        <Route path="/categories/:categoryId" element={<CategoryPage />} />
-        <Route path="/wishlist" element={<WishlistPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/orders" element={<OrdersPage />} />
-        <Route path="/notifications" element={<NotificationsPage />} />
+        <Route path="products/:productId" element={<ProductDetailsPage />} />
+        <Route path="categories/:categoryId" element={<CategoryPage />} />
+        <Route path="wishlist" element={<WishlistPage />} />
+        <Route path="cart" element={<CartPage />} />
+        <Route path="orders" element={<OrdersPage />} />
+        <Route path="notifications" element={<NotificationsPage />} />
+      </Route>
+
+      <Route
+        element={
+          <SellerRoute>
+            <MainLayout />
+          </SellerRoute>
+        }
+      >
+        <Route path="seller" element={<SellerDashboardPage />} />
+        <Route path="seller/products" element={<MyProductsPage />} />
+        <Route path="seller/products/add" element={<AddProductPage />} />
+        <Route path="seller/products/:productId/edit" element={<EditProductPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

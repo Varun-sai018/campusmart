@@ -65,6 +65,16 @@ export const Navbar = () => {
                     Orders
                   </button>
                 </li>
+                {user?.roles?.includes('SELLER') && (
+                  <li className="nav-item">
+                    <button
+                      className="nav-link btn btn-link text-white"
+                      onClick={() => navigate('/seller')}
+                    >
+                      Seller Dashboard
+                    </button>
+                  </li>
+                )}
                 <li className="nav-item">
                   <button
                     className="nav-link btn btn-link text-white"
