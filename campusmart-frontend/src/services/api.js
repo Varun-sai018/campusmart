@@ -66,6 +66,14 @@ export const categoryAPI = {
   },
 };
 
+// Product image API endpoints
+export const productImageAPI = {
+  getProductImages: async (productId) => {
+    const response = await axiosInstance.get(`/api/products/${productId}/images`);
+    return response.data;
+  },
+};
+
 // Order API endpoints
 export const orderAPI = {
   createOrder: async () => {
@@ -178,6 +186,11 @@ export const reviewAPI = {
 
   deleteReview: async (reviewId) => {
     const response = await axiosInstance.delete(`/api/reviews/${reviewId}`);
+    return response.data;
+  },
+
+  getRatingSummary: async (productId) => {
+    const response = await axiosInstance.get(`/api/products/${productId}/rating-summary`);
     return response.data;
   },
 };

@@ -13,7 +13,7 @@ export const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
-        <div className="navbar-brand fw-bold">
+        <div className="navbar-brand fw-bold" style={{ cursor: 'pointer' }} onClick={() => navigate('/')}> 
           <span style={{ fontSize: '1.5rem' }}>🎓 CampusMart</span>
         </div>
 
@@ -31,6 +31,16 @@ export const Navbar = () => {
 
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
+            {isAuthenticated && (
+              <li className="nav-item">
+                <button
+                  className="nav-link btn btn-link text-white"
+                  onClick={() => navigate('/')}
+                >
+                  Marketplace
+                </button>
+              </li>
+            )}
             {!isAuthenticated ? (
               <>
                 <li className="nav-item">

@@ -1,10 +1,7 @@
+import ProductListPage from './ProductListPage.jsx';
+
 function HomePage() {
-  return (
-    <section>
-      <h1>CampusMart</h1>
-      <p className="text-muted">Student marketplace platform scaffold.</p>
-    </section>
-  );
+  return <ProductListPage />;
 }
 
 export default HomePage;

@@ -1,6 +1,8 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout.jsx';
 import HomePage from '../pages/HomePage.jsx';
+import ProductDetailsPage from '../pages/ProductDetailsPage.jsx';
+import CategoryPage from '../pages/CategoryPage.jsx';
 import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
 import { ProtectedRoute } from '../components/ProtectedRoute';
@@ -22,6 +24,8 @@ function AppRoutes() {
         }
       >
         <Route index element={<HomePage />} />
+        <Route path="/products/:productId" element={<ProductDetailsPage />} />
+        <Route path="/categories/:categoryId" element={<CategoryPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
