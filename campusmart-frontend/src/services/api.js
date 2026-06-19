@@ -81,17 +81,8 @@ export const orderAPI = {
     return response.data;
   },
 
-  getOrdersForBuyer: async (page = 0, size = 20) => {
-    const response = await axiosInstance.get('/api/orders/buyer', {
-      params: { page, size },
-    });
-    return response.data;
-  },
-
-  getOrdersForSeller: async (page = 0, size = 20) => {
-    const response = await axiosInstance.get('/api/orders/seller', {
-      params: { page, size },
-    });
+  getOrders: async () => {
+    const response = await axiosInstance.get('/api/orders');
     return response.data;
   },
 
@@ -104,8 +95,7 @@ export const orderAPI = {
 // Cart API endpoints
 export const cartAPI = {
   addToCart: async (productId, quantity = 1) => {
-    const response = await axiosInstance.post('/api/cart', {
-      productId,
+    const response = await axiosInstance.post(`/api/cart/${productId}`, {
       quantity,
     });
     return response.data;
@@ -137,7 +127,7 @@ export const cartAPI = {
 // Wishlist API endpoints
 export const wishlistAPI = {
   addToWishlist: async (productId) => {
-    const response = await axiosInstance.post('/api/wishlist', { productId });
+    const response = await axiosInstance.post(`/api/wishlist/${productId}`);
     return response.data;
   },
 
@@ -154,15 +144,13 @@ export const wishlistAPI = {
 
 // Notification API endpoints
 export const notificationAPI = {
-  getNotifications: async (page = 0, size = 20) => {
-    const response = await axiosInstance.get('/api/notifications', {
-      params: { page, size },
-    });
+  getNotifications: async () => {
+    const response = await axiosInstance.get('/api/notifications');
     return response.data;
   },
 
   markAsRead: async (id) => {
-    const response = await axiosInstance.put(`/api/notifications/${id}`);
+    const response = await axiosInstance.post(`/api/notifications/${id}/read`);
     return response.data;
   },
 };

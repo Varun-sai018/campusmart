@@ -3,6 +3,10 @@ import MainLayout from '../layouts/MainLayout.jsx';
 import HomePage from '../pages/HomePage.jsx';
 import ProductDetailsPage from '../pages/ProductDetailsPage.jsx';
 import CategoryPage from '../pages/CategoryPage.jsx';
+import WishlistPage from '../pages/WishlistPage.jsx';
+import CartPage from '../pages/CartPage.jsx';
+import OrdersPage from '../pages/OrdersPage.jsx';
+import NotificationsPage from '../pages/NotificationsPage.jsx';
 import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
 import { ProtectedRoute } from '../components/ProtectedRoute';
@@ -26,6 +30,10 @@ function AppRoutes() {
         <Route index element={<HomePage />} />
         <Route path="/products/:productId" element={<ProductDetailsPage />} />
         <Route path="/categories/:categoryId" element={<CategoryPage />} />
+        <Route path="/wishlist" element={<WishlistPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/orders" element={<OrdersPage />} />
+        <Route path="/notifications" element={<NotificationsPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

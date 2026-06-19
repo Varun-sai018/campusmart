@@ -32,14 +32,48 @@ export const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             {isAuthenticated && (
-              <li className="nav-item">
-                <button
-                  className="nav-link btn btn-link text-white"
-                  onClick={() => navigate('/')}
-                >
-                  Marketplace
-                </button>
-              </li>
+              <>
+                <li className="nav-item">
+                  <button
+                    className="nav-link btn btn-link text-white"
+                    onClick={() => navigate('/')}
+                  >
+                    Marketplace
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button
+                    className="nav-link btn btn-link text-white"
+                    onClick={() => navigate('/wishlist')}
+                  >
+                    Wishlist
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button
+                    className="nav-link btn btn-link text-white"
+                    onClick={() => navigate('/cart')}
+                  >
+                    Cart
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button
+                    className="nav-link btn btn-link text-white"
+                    onClick={() => navigate('/orders')}
+                  >
+                    Orders
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button
+                    className="nav-link btn btn-link text-white"
+                    onClick={() => navigate('/notifications')}
+                  >
+                    Notifications
+                  </button>
+                </li>
+              </>
             )}
             {!isAuthenticated ? (
               <>
