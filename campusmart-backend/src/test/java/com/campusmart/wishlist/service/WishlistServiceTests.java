@@ -19,6 +19,7 @@ import org.springframework.security.access.AccessDeniedException;
 
 import com.campusmart.exception.BadRequestException;
 import com.campusmart.exception.ProductNotFoundException;
+import com.campusmart.notification.service.NotificationService;
 import com.campusmart.product.entity.Product;
 import com.campusmart.product.entity.ProductCondition;
 import com.campusmart.product.entity.ProductStatus;
@@ -40,6 +41,9 @@ class WishlistServiceTests {
 
     @Mock
     private ProductRepository productRepository;
+
+    @Mock
+    private NotificationService notificationService;
 
     @InjectMocks
     private WishlistService wishlistService;

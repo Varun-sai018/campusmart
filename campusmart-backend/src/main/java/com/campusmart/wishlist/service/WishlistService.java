@@ -12,6 +12,8 @@ import com.campusmart.product.entity.Product;
 import com.campusmart.product.repository.ProductRepository;
 import com.campusmart.user.entity.User;
 import com.campusmart.user.repository.UserRepository;
+import com.campusmart.notification.NotificationType;
+import com.campusmart.notification.service.NotificationService;
 import com.campusmart.wishlist.dto.WishlistItemResponseDto;
 import com.campusmart.wishlist.entity.WishlistItem;
 import com.campusmart.wishlist.repository.WishlistRepository;
@@ -25,6 +27,7 @@ public class WishlistService {
     private final WishlistRepository wishlistRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public WishlistItemResponseDto addProductToWishlist(Long productId, Long currentUserId) {
@@ -49,6 +52,8 @@ public class WishlistService {
                 .product(product)
                 .build();
         WishlistItem saved = wishlistRepository.save(wishlistItem);
+        notificationService.createNotification(user, NotificationType.WISHLIST_ADDED,
+                "'" + product.getTitle() + "' was added to your wishlist.");
         return toDto(saved);
     }
 

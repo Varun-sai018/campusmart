@@ -9,6 +9,8 @@ import com.campusmart.order.dto.OrderResponseDto;
 import com.campusmart.order.entity.Order;
 import com.campusmart.order.entity.OrderItem;
 import com.campusmart.order.entity.OrderStatus;
+import com.campusmart.notification.NotificationType;
+import com.campusmart.notification.service.NotificationService;
 import com.campusmart.order.repository.OrderRepository;
 import com.campusmart.product.entity.Product;
 import com.campusmart.product.entity.ProductStatus;
@@ -28,6 +30,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final CartItemRepository cartItemRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public OrderResponseDto createOrder(Long currentUserId) {
@@ -55,6 +58,13 @@ public class OrderService {
 
         Order savedOrder = orderRepository.save(order);
         cartItemRepository.deleteByUser(buyer);
+        notificationService.createNotification(buyer, NotificationType.ORDER_PLACED,
+                "Your order " + savedOrder.getId() + " has been placed successfully.");
+        order.getOrderItems().stream()
+                .map(orderItem -> orderItem.getSeller())
+                .distinct()
+                .forEach(seller -> notificationService.createNotification(seller, NotificationType.PRODUCT_RESERVED,
+                        "A product in your listing has been reserved by order " + savedOrder.getId() + "."));
         return toDto(savedOrder);
     }
 

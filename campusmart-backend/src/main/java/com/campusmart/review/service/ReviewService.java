@@ -2,6 +2,8 @@ package com.campusmart.review.service;
 
 import com.campusmart.exception.BadRequestException;
 import com.campusmart.exception.ResourceNotFoundException;
+import com.campusmart.notification.NotificationType;
+import com.campusmart.notification.service.NotificationService;
 import com.campusmart.order.repository.OrderRepository;
 import com.campusmart.product.entity.Product;
 import com.campusmart.product.repository.ProductRepository;
@@ -29,6 +31,7 @@ public class ReviewService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public ReviewResponseDto createReview(Long productId, Long currentUserId, ReviewRequestDto request) {
@@ -46,7 +49,12 @@ public class ReviewService {
                 .comment(request.comment())
                 .build();
 
-        return toDto(reviewRepository.save(review));
+        Review savedReview = reviewRepository.save(review);
+        notificationService.createNotification(product.getSeller(), NotificationType.REVIEW_RECEIVED,
+                "Your product '" + product.getTitle() + "' received a new review.");
+        notificationService.createNotification(buyer, NotificationType.REVIEW_POSTED,
+                "Your review for '" + product.getTitle() + "' has been posted.");
+        return toDto(savedReview);
     }
 
     @Transactional

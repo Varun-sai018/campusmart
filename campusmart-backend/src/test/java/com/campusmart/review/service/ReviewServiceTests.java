@@ -16,6 +16,7 @@ import com.campusmart.product.repository.ProductRepository;
 import com.campusmart.review.dto.ReviewRequestDto;
 import com.campusmart.review.entity.Review;
 import com.campusmart.review.repository.ReviewRepository;
+import com.campusmart.notification.service.NotificationService;
 import com.campusmart.user.entity.User;
 import com.campusmart.user.repository.UserRepository;
 import java.util.List;
@@ -42,6 +43,9 @@ class ReviewServiceTests {
 
     @Mock
     private OrderRepository orderRepository;
+
+    @Mock
+    private NotificationService notificationService;
 
     @InjectMocks
     private ReviewService reviewService;

@@ -16,6 +16,7 @@ import com.campusmart.order.repository.OrderRepository;
 import com.campusmart.product.entity.Product;
 import com.campusmart.product.entity.ProductCondition;
 import com.campusmart.product.entity.ProductStatus;
+import com.campusmart.notification.service.NotificationService;
 import com.campusmart.user.entity.User;
 import com.campusmart.user.repository.UserRepository;
 import java.math.BigDecimal;
@@ -39,6 +40,9 @@ class OrderServiceTests {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private NotificationService notificationService;
 
     @InjectMocks
     private OrderService orderService;

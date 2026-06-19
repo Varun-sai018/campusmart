@@ -13,6 +13,9 @@ import com.campusmart.product.entity.ProductStatus;
 import com.campusmart.product.repository.ProductRepository;
 import com.campusmart.user.entity.User;
 import com.campusmart.user.repository.UserRepository;
+import com.campusmart.notification.NotificationType;
+import com.campusmart.notification.service.NotificationService;
+import com.campusmart.notification.service.WishlistNotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +30,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final NotificationService notificationService;
+    private final WishlistNotificationService wishlistNotificationService;
 
     @Transactional
     public ProductResponseDto createProduct(ProductCreateRequestDto request, Long currentUserId) {
@@ -95,6 +100,7 @@ public class ProductService {
         Category category = categoryRepository.findById(request.categoryId())
                 .orElseThrow(() -> new CategoryNotFoundException(request.categoryId()));
 
+        ProductStatus previousStatus = product.getStatus();
         product.setTitle(normalizeText(request.title()));
         product.setDescription(normalizeOptionalText(request.description()));
         product.setPrice(request.price());
@@ -102,7 +108,20 @@ public class ProductService {
         product.setStatus(request.status());
         product.setCategory(category);
 
-        return toResponse(productRepository.save(product));
+        Product savedProduct = productRepository.save(product);
+
+        if (previousStatus != ProductStatus.RESERVED && request.status() == ProductStatus.RESERVED) {
+            notificationService.createNotification(product.getSeller(), NotificationType.PRODUCT_RESERVED,
+                    "Your product '" + product.getTitle() + "' has been reserved.");
+        }
+
+        if (previousStatus != ProductStatus.SOLD && request.status() == ProductStatus.SOLD) {
+            notificationService.createNotification(product.getSeller(), NotificationType.PRODUCT_SOLD,
+                    "Your product '" + product.getTitle() + "' has been sold.");
+            wishlistNotificationService.notifyWishlistUsersProductSold(product);
+        }
+
+        return toResponse(savedProduct);
     }
 
     @Transactional

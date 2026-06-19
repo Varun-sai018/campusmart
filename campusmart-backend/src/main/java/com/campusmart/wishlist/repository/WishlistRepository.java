@@ -15,5 +15,7 @@ public interface WishlistRepository extends JpaRepository<WishlistItem, Long> {
 
     List<WishlistItem> findByUserOrderByCreatedAtDesc(User user);
 
+    List<WishlistItem> findByProduct(Product product);
+
     boolean existsByUserAndProduct(User user, Product product);
 }
