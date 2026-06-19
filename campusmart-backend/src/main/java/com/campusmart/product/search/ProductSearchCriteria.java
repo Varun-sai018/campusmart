@@ -1,8 +1,9 @@
 package com.campusmart.product.search;
 
+import java.math.BigDecimal;
+
 import com.campusmart.product.entity.ProductCondition;
 import com.campusmart.product.entity.ProductStatus;
-import java.math.BigDecimal;
 
 public record ProductSearchCriteria(
         String keyword,

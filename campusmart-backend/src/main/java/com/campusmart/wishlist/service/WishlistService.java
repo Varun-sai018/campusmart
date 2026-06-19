@@ -1,5 +1,11 @@
 package com.campusmart.wishlist.service;
 
+import java.util.List;
+
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.campusmart.exception.BadRequestException;
 import com.campusmart.exception.ProductNotFoundException;
 import com.campusmart.product.entity.Product;
@@ -9,11 +15,8 @@ import com.campusmart.user.repository.UserRepository;
 import com.campusmart.wishlist.dto.WishlistItemResponseDto;
 import com.campusmart.wishlist.entity.WishlistItem;
 import com.campusmart.wishlist.repository.WishlistRepository;
-import java.util.List;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor

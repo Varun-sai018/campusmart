@@ -1,10 +1,21 @@
 package com.campusmart.productattribute.service;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.access.AccessDeniedException;
 
 import com.campusmart.exception.BadRequestException;
 import com.campusmart.exception.ProductAttributeNotFoundException;
@@ -17,16 +28,6 @@ import com.campusmart.productattribute.dto.ProductAttributeRequestDto;
 import com.campusmart.productattribute.entity.ProductAttribute;
 import com.campusmart.productattribute.repository.ProductAttributeRepository;
 import com.campusmart.user.entity.User;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.access.AccessDeniedException;
 
 @ExtendWith(MockitoExtension.class)
 class ProductAttributeServiceTests {

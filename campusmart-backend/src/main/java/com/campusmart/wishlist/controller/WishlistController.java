@@ -1,11 +1,7 @@
 package com.campusmart.wishlist.controller;
 
-import com.campusmart.security.UserPrincipal;
-import com.campusmart.wishlist.dto.WishlistItemResponseDto;
-import com.campusmart.wishlist.service.WishlistService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.campusmart.security.UserPrincipal;
+import com.campusmart.wishlist.dto.WishlistItemResponseDto;
+import com.campusmart.wishlist.service.WishlistService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Wishlist", description = "User wishlist management")
 @RestController

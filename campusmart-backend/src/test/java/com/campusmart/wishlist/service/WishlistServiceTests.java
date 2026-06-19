@@ -1,11 +1,21 @@
 package com.campusmart.wishlist.service;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.access.AccessDeniedException;
 
 import com.campusmart.exception.BadRequestException;
 import com.campusmart.exception.ProductNotFoundException;
@@ -18,16 +28,6 @@ import com.campusmart.user.repository.UserRepository;
 import com.campusmart.wishlist.dto.WishlistItemResponseDto;
 import com.campusmart.wishlist.entity.WishlistItem;
 import com.campusmart.wishlist.repository.WishlistRepository;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.access.AccessDeniedException;
 
 @ExtendWith(MockitoExtension.class)
 class WishlistServiceTests {

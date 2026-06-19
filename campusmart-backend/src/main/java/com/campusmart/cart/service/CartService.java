@@ -1,6 +1,12 @@
 package com.campusmart.cart.service;
 
-import com.campusmart.cart.dto.CartItemRequestDto;
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.campusmart.cart.dto.CartItemResponseDto;
 import com.campusmart.cart.dto.CartSummaryDto;
 import com.campusmart.cart.entity.CartItem;
@@ -12,12 +18,8 @@ import com.campusmart.product.entity.ProductStatus;
 import com.campusmart.product.repository.ProductRepository;
 import com.campusmart.user.entity.User;
 import com.campusmart.user.repository.UserRepository;
-import java.math.BigDecimal;
-import java.util.List;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor

@@ -1,14 +1,13 @@
 package com.campusmart.product.search;
 
+import org.springframework.data.jpa.domain.Specification;
+
 import com.campusmart.product.entity.Product;
-import com.campusmart.product.entity.ProductCondition;
-import com.campusmart.product.entity.ProductStatus;
+
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import java.math.BigDecimal;
-import org.springframework.data.jpa.domain.Specification;
 
 public class ProductSpecification {
 
