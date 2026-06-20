@@ -1,10 +1,10 @@
 import AppRoutes from './routes/AppRoutes.jsx';
-import { Navbar } from './components/Navbar';
+import AppNavbar from './components/AppNavbar.jsx';
 
 function App() {
   return (
-    <div>
-      <Navbar />
+    <div className="app-shell">
+      <AppNavbar />
       <AppRoutes />
     </div>
   );

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { categoryAPI, productAPI } from '../services/api';
-import ProductCard from '../components/ProductCard';
+import ProductGrid from '../components/ProductGrid.jsx';
+import EmptyState from '../components/EmptyState.jsx';
 
 const PAGE_SIZE = 12;
 
@@ -70,101 +70,97 @@ function ProductListPage({ categoryId: initialCategoryId }) {
   };
 
   return (
-    <section>
-      <div className="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
+    <section className="product-list-page">
+      <div className="section-intro section-intro-slim">
         <div>
-          <h1 className="h2 mb-1">CampusMart Marketplace</h1>
-          <p className="text-muted mb-0">Browse student listings, filter by category, and explore featured products.</p>
+          <p className="eyebrow">Search the marketplace</p>
+          <h1>All listings and categories</h1>
+          <p className="section-description">Browse products, filter by category, and discover student favourites.</p>
         </div>
-
-        <form className="d-flex w-100 w-md-auto" onSubmit={handleSearchSubmit}>
-          <input
-            type="search"
-            className="form-control me-2"
-            placeholder="Search products..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button type="submit" className="btn btn-primary">Search</button>
-        </form>
       </div>
 
-      <div className="mb-4">
-        <div className="d-flex flex-wrap gap-2 align-items-center">
+      <form className="product-search-form" onSubmit={handleSearchSubmit}>
+        <input
+          type="search"
+          className="search-input"
+          placeholder="Search products..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button type="submit" className="market-btn market-btn-primary">
+          Search
+        </button>
+      </form>
+
+      <div className="category-pill-row">
+        <button
+          type="button"
+          className={`category-pill ${selectedCategory === null ? 'category-pill-active' : ''}`}
+          onClick={() => handleCategorySelect(null)}
+        >
+          All Categories
+        </button>
+        {categories.map((category) => (
           <button
+            key={category.id}
             type="button"
-            className={`btn btn-sm ${selectedCategory === null ? 'btn-primary' : 'btn-outline-primary'}`}
-            onClick={() => handleCategorySelect(null)}
+            className={`category-pill ${selectedCategory === category.id ? 'category-pill-active' : ''}`}
+            onClick={() => handleCategorySelect(category)}
           >
-            All Categories
+            {category.name}
           </button>
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              type="button"
-              className={`btn btn-sm ${selectedCategory === category.id ? 'btn-primary' : 'btn-outline-primary'}`}
-              onClick={() => handleCategorySelect(category)}
-            >
-              {category.name}
-            </button>
-          ))}
-        </div>
+        ))}
       </div>
 
-      {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
-      )}
+      {error && <EmptyState title="Unable to load products" description={error} />}
 
       {loading ? (
-        <div className="text-center py-5">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading products...</span>
-          </div>
-        </div>
+        <div className="page-loader" />
       ) : (
-        <>
-          {products.length === 0 ? (
-            <div className="alert alert-secondary" role="alert">
-              No products found. Try a different search or category.
-            </div>
-          ) : (
-            <div className="row gy-4">
-              {products.map((product) => (
-                <div key={product.id} className="col-12 col-md-6 col-xl-4">
-                  <Link to={`/products/${product.id}`} className="text-decoration-none text-reset">
-                    <ProductCard product={product} />
-                  </Link>
-                </div>
-              ))}
-            </div>
-          )}
+        <ProductGrid
+          products={products}
+          heading="Browse listings"
+          description="Find the right product for your campus lifestyle."
+          emptyMessage="No products match your filters right now."
+        />
+      )}
 
-          {totalPages > 1 && (
-            <nav className="mt-4">
-              <ul className="pagination justify-content-center">
-                <li className={`page-item ${page === 0 ? 'disabled' : ''}`}>
-                  <button className="page-link" onClick={() => setPage((prev) => Math.max(prev - 1, 0))}>
-                    Previous
-                  </button>
-                </li>
-                {Array.from({ length: totalPages }).map((_, index) => (
-                  <li key={index} className={`page-item ${page === index ? 'active' : ''}`}>
-                    <button className="page-link" onClick={() => setPage(index)}>
-                      {index + 1}
-                    </button>
-                  </li>
-                ))}
-                <li className={`page-item ${page === totalPages - 1 ? 'disabled' : ''}`}>
-                  <button className="page-link" onClick={() => setPage((prev) => Math.min(prev + 1, totalPages - 1))}>
-                    Next
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          )}
-        </>
+      {totalPages > 1 && (
+        <nav className="pagination-nav">
+          <ul className="pagination-list">
+            <li>
+              <button
+                type="button"
+                className="page-button"
+                disabled={page === 0}
+                onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
+              >
+                Previous
+              </button>
+            </li>
+            {Array.from({ length: totalPages }).map((_, index) => (
+              <li key={index}>
+                <button
+                  type="button"
+                  className={`page-button ${page === index ? 'page-button-active' : ''}`}
+                  onClick={() => setPage(index)}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+            <li>
+              <button
+                type="button"
+                className="page-button"
+                disabled={page === totalPages - 1}
+                onClick={() => setPage((prev) => Math.min(prev + 1, totalPages - 1))}
+              >
+                Next
+              </button>
+            </li>
+          </ul>
+        </nav>
       )}
     </section>
   );

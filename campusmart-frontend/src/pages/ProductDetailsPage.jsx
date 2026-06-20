@@ -56,116 +56,102 @@ function ProductDetailsPage() {
   };
 
   return (
-    <section>
-      <div className="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
+    <section className="page-section page-section-detail">
+      <div className="section-header">
         <div>
-          <h1 className="h2 mb-1">Product Details</h1>
-          <p className="text-muted mb-0">Explore the listing, seller details, and customer feedback.</p>
+          <p className="eyebrow">Product details</p>
+          <h1>{product?.title || 'Product details'}</h1>
+          <p className="section-description">Explore the selected listing, seller information, and customer reviews.</p>
         </div>
-        <button className="btn btn-outline-primary" onClick={() => navigate(-1)}>
+        <button className="market-btn market-btn-outline" onClick={() => navigate(-1)}>
           Back to marketplace
         </button>
       </div>
 
       {loading ? (
-        <div className="text-center py-5">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading product...</span>
-          </div>
-        </div>
+        <div className="page-loader" />
       ) : error ? (
-        <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
+        <EmptyState title="Unable to load product" description={error} />
       ) : (
         product && (
-          <div className="row g-4">
-            <div className="col-12 col-lg-7">
-              <div className="card shadow-sm">
-                <img
-                  src={imageUrl || fallbackImage}
-                  alt={product.title}
-                  className="card-img-top object-fit-cover"
-                  style={{ maxHeight: '420px' }}
-                  onError={(event) => {
-                    if (event.currentTarget.src !== fallbackImage) {
-                      event.currentTarget.src = fallbackImage;
-                    }
-                  }}
-                />
-                <div className="card-body">
-                  <h2 className="h4 fw-bold">{product.title}</h2>
-                  <div className="mb-3 d-flex flex-wrap gap-2 align-items-center">
-                    <span className="badge bg-primary">{product.categoryName || 'Uncategorized'}</span>
-                    <span className="badge bg-secondary">{product.condition}</span>
-                    <span className={`badge ${product.status === 'ACTIVE' ? 'bg-success' : 'bg-warning'}`}>
+          <div className="product-detail-grid">
+            <div className="product-detail-main">
+              <div className="product-detail-card">
+                <div className="product-detail-image">
+                  <img
+                    src={imageUrl || fallbackImage}
+                    alt={product.title}
+                    onError={(event) => {
+                      if (event.currentTarget.src !== fallbackImage) {
+                        event.currentTarget.src = fallbackImage;
+                      }
+                    }}
+                  />
+                </div>
+                <div className="product-detail-summary">
+                  <div className="badge-row mb-3">
+                    <span className="product-badge product-badge-soft">{product.categoryName || 'Uncategorized'}</span>
+                    <span className="product-badge">{product.condition}</span>
+                    <span className={`product-status ${product.status === 'ACTIVE' ? 'status-active' : 'status-inactive'}`}>
                       {product.status}
                     </span>
                   </div>
-                  <p className="fs-4 fw-semibold text-dark mb-3">{formatCurrency(product.price)}</p>
-                  <p className="mb-4 text-muted">{product.description || 'No description available.'}</p>
+                  <h2>{product.title}</h2>
+                  <p className="product-detail-price">{formatCurrency(product.price)}</p>
+                  <p className="product-detail-copy">{product.description || 'No description available.'}</p>
 
-                  <div className="row g-3 mb-4">
-                    <div className="col-6">
-                      <div className="small text-uppercase text-muted">Seller</div>
-                      <p className="mb-0">{product.sellerName}</p>
-                    </div>
-                    <div className="col-6">
-                      <div className="small text-uppercase text-muted">Category</div>
-                      <p className="mb-0">{product.categoryName || 'Unknown'}</p>
-                    </div>
-                  </div>
-
-                  <div className="d-flex flex-wrap gap-3 align-items-center">
+                  <div className="product-detail-meta">
                     <div>
-                      <div className="small text-uppercase text-muted">Rating</div>
+                      <span className="meta-label">Seller</span>
+                      <p>{product.sellerName}</p>
+                    </div>
+                    <div>
+                      <span className="meta-label">Listed</span>
+                      <p>{new Date(product.createdAt).toLocaleDateString()}</p>
+                    </div>
+                    <div>
+                      <span className="meta-label">Rating</span>
                       <div className="d-flex align-items-center gap-2">
                         <RatingStars rating={ratingSummary?.averageRating ?? 0} />
-                        <span className="text-muted">({ratingSummary?.reviewCount ?? 0} reviews)</span>
+                        <span className="meta-small">({ratingSummary?.reviewCount ?? 0})</span>
                       </div>
-                    </div>
-                    <div>
-                      <div className="small text-uppercase text-muted">Listed</div>
-                      <p className="mb-0">{new Date(product.createdAt).toLocaleDateString()}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="card shadow-sm mt-4">
-                <div className="card-body">
-                  <h3 className="h5 mb-3">Customer Reviews</h3>
-                  <ReviewList reviews={reviews} />
+              <div className="product-detail-card mt-4">
+                <div className="section-heading mb-3">
+                  <h2>Customer reviews</h2>
                 </div>
+                <ReviewList reviews={reviews} />
               </div>
             </div>
 
-            <div className="col-12 col-lg-5">
-              <div className="card shadow-sm p-4">
-                <h3 className="h5 mb-3">Quick Facts</h3>
-                <ul className="list-group list-group-flush">
-                  <li className="list-group-item px-0 d-flex justify-content-between">
-                    <span>Condition</span>
-                    <strong>{product.condition}</strong>
-                  </li>
-                  <li className="list-group-item px-0 d-flex justify-content-between">
-                    <span>Status</span>
-                    <strong>{product.status}</strong>
-                  </li>
-                  <li className="list-group-item px-0 d-flex justify-content-between">
-                    <span>Seller</span>
-                    <strong>{product.sellerName}</strong>
-                  </li>
-                  <li className="list-group-item px-0 d-flex justify-content-between">
-                    <span>Category</span>
-                    <strong>{product.categoryName || '—'}</strong>
-                  </li>
-                </ul>
-                <Link to="/" className="btn btn-primary w-100 mt-4">
+            <aside className="product-detail-sidebar">
+              <div className="product-detail-card sidebar-card">
+                <h3>Quick facts</h3>
+                <div className="sidebar-fact">
+                  <span>Condition</span>
+                  <strong>{product.condition}</strong>
+                </div>
+                <div className="sidebar-fact">
+                  <span>Status</span>
+                  <strong>{product.status}</strong>
+                </div>
+                <div className="sidebar-fact">
+                  <span>Seller</span>
+                  <strong>{product.sellerName}</strong>
+                </div>
+                <div className="sidebar-fact">
+                  <span>Category</span>
+                  <strong>{product.categoryName || '—'}</strong>
+                </div>
+                <Link to="/products" className="market-btn market-btn-primary w-100 mt-3">
                   Browse more listings
                 </Link>
               </div>
-            </div>
+            </aside>
           </div>
         )
       )}

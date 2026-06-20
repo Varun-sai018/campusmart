@@ -1,6 +1,7 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout.jsx';
 import HomePage from '../pages/HomePage.jsx';
+import ProductListPage from '../pages/ProductListPage.jsx';
 import ProductDetailsPage from '../pages/ProductDetailsPage.jsx';
 import CategoryPage from '../pages/CategoryPage.jsx';
 import WishlistPage from '../pages/WishlistPage.jsx';
@@ -33,6 +34,7 @@ function AppRoutes() {
         }
       >
         <Route index element={<HomePage />} />
+        <Route path="products" element={<ProductListPage />} />
         <Route path="products/:productId" element={<ProductDetailsPage />} />
         <Route path="categories/:categoryId" element={<CategoryPage />} />
         <Route path="wishlist" element={<WishlistPage />} />
