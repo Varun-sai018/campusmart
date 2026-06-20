@@ -1,9 +1,10 @@
 package com.campusmart.product.dto;
 
-import com.campusmart.product.entity.ProductCondition;
-import com.campusmart.product.entity.ProductStatus;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import com.campusmart.product.entity.ProductCondition;
+import com.campusmart.product.entity.ProductStatus;
 
 public record ProductResponseDto(
         Long id,
@@ -17,6 +18,7 @@ public record ProductResponseDto(
         Long categoryId,
         String categoryName,
         Boolean isActive,
+        String primaryImageUrl,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {

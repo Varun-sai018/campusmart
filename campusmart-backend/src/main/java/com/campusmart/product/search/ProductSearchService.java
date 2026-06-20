@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.campusmart.product.dto.ProductResponseDto;
 import com.campusmart.product.entity.Product;
 import com.campusmart.product.repository.ProductRepository;
+import com.campusmart.productimage.repository.ProductImageRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductSearchService {
 
     private final ProductRepository productRepository;
+    private final ProductImageRepository productImageRepository;
 
     @Transactional(readOnly = true)
     public Page<ProductResponseDto> searchProducts(ProductSearchCriteria criteria) {
@@ -49,6 +51,11 @@ public class ProductSearchService {
     }
 
     private ProductResponseDto toResponse(Product product) {
+        String primaryImageUrl = null;
+        var images = productImageRepository.findByProductOrderByCreatedAtAsc(product);
+        if (images != null && !images.isEmpty()) {
+            primaryImageUrl = images.get(0).getImageUrl();
+        }
         return new ProductResponseDto(
                 product.getId(),
                 product.getTitle(),
@@ -61,6 +68,7 @@ public class ProductSearchService {
                 product.getCategory().getId(),
                 product.getCategory().getName(),
                 product.getIsActive(),
+                primaryImageUrl,
                 product.getCreatedAt(),
                 product.getUpdatedAt()
         );

@@ -4,7 +4,12 @@ export const validateEmail = (email) => {
 };
 
 export const validatePassword = (password) => {
-  return password.length >= 6;
+  return (
+    password.length >= 8 &&
+    /[a-z]/.test(password) &&
+    /[A-Z]/.test(password) &&
+    /\d/.test(password)
+  );
 };
 
 export const validatePhoneNumber = (phone) => {
@@ -63,7 +68,7 @@ export const validateRegisterForm = (formData) => {
   if (!password) {
     errors.password = 'Password is required';
   } else if (!validatePassword(password)) {
-    errors.password = 'Password must be at least 6 characters';
+    errors.password = 'Password must be at least 8 characters and include uppercase, lowercase, and a number';
   }
 
   if (!phoneNumber) {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { productAPI, productImageAPI, reviewAPI } from '../services/api';
 import RatingStars from '../components/RatingStars.jsx';
 import ReviewList from '../components/ReviewList.jsx';
@@ -42,6 +42,7 @@ function ProductDetailsPage() {
   }, [productId]);
 
   const imageUrl = images.length > 0 ? images[0].imageUrl : null;
+  const fallbackImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='420' viewBox='0 0 800 420'%3E%3Crect width='800' height='420' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='45%25' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-family='Arial,Helvetica,sans-serif' font-size='32'%3EImage not available%3C/text%3E%3Ctext x='50%25' y='60%25' dominant-baseline='middle' text-anchor='middle' fill='%23bbb' font-family='Arial,Helvetica,sans-serif' font-size='18'%3ECampusMart%3C/text%3E%3C/svg%3E";
 
   const formatCurrency = (value) => {
     if (value == null) return '-';
@@ -81,18 +82,17 @@ function ProductDetailsPage() {
           <div className="row g-4">
             <div className="col-12 col-lg-7">
               <div className="card shadow-sm">
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt={product.title}
-                    className="card-img-top object-fit-cover"
-                    style={{ maxHeight: '420px' }}
-                  />
-                ) : (
-                  <div className="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style={{ minHeight: '320px' }}>
-                    <span className="text-muted">No image available</span>
-                  </div>
-                )}
+                <img
+                  src={imageUrl || fallbackImage}
+                  alt={product.title}
+                  className="card-img-top object-fit-cover"
+                  style={{ maxHeight: '420px' }}
+                  onError={(event) => {
+                    if (event.currentTarget.src !== fallbackImage) {
+                      event.currentTarget.src = fallbackImage;
+                    }
+                  }}
+                />
                 <div className="card-body">
                   <h2 className="h4 fw-bold">{product.title}</h2>
                   <div className="mb-3 d-flex flex-wrap gap-2 align-items-center">

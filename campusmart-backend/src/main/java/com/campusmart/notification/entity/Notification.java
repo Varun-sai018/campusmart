@@ -39,7 +39,7 @@ public class Notification {
     private User recipient;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 40)
+    @Column(name = "notification_type", nullable = false, length = 40)
     private NotificationType type;
 
     @Column(nullable = false, length = 500)

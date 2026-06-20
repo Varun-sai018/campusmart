@@ -1,10 +1,19 @@
 package com.campusmart.product.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.campusmart.category.entity.Category;
 import com.campusmart.category.repository.CategoryRepository;
 import com.campusmart.exception.CategoryNotFoundException;
 import com.campusmart.exception.ProductNotFoundException;
 import com.campusmart.exception.ResourceNotFoundException;
+import com.campusmart.notification.NotificationType;
+import com.campusmart.notification.service.NotificationService;
+import com.campusmart.notification.service.WishlistNotificationService;
 import com.campusmart.product.dto.ProductCreateRequestDto;
 import com.campusmart.product.dto.ProductResponseDto;
 import com.campusmart.product.dto.ProductUpdateRequestDto;
@@ -13,15 +22,8 @@ import com.campusmart.product.entity.ProductStatus;
 import com.campusmart.product.repository.ProductRepository;
 import com.campusmart.user.entity.User;
 import com.campusmart.user.repository.UserRepository;
-import com.campusmart.notification.NotificationType;
-import com.campusmart.notification.service.NotificationService;
-import com.campusmart.notification.service.WishlistNotificationService;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +34,7 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
     private final NotificationService notificationService;
     private final WishlistNotificationService wishlistNotificationService;
+    private final com.campusmart.productimage.repository.ProductImageRepository productImageRepository;
 
     @Transactional
     public ProductResponseDto createProduct(ProductCreateRequestDto request, Long currentUserId) {
@@ -144,6 +147,12 @@ public class ProductService {
     private ProductResponseDto toResponse(Product product) {
         User seller = product.getSeller();
         Category category = product.getCategory();
+        // fetch primary image if any
+        String primaryImageUrl = null;
+        var imgs = productImageRepository.findByProductOrderByCreatedAtAsc(product);
+        if (imgs != null && !imgs.isEmpty()) {
+            primaryImageUrl = imgs.get(0).getImageUrl();
+        }
         return new ProductResponseDto(
                 product.getId(),
                 product.getTitle(),
@@ -156,6 +165,7 @@ public class ProductService {
                 category.getId(),
                 category.getName(),
                 product.getIsActive(),
+                primaryImageUrl,
                 product.getCreatedAt(),
                 product.getUpdatedAt()
         );

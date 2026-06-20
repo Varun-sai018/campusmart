@@ -173,7 +173,7 @@ export const RegisterPage = () => {
                       className={`form-control ${errors.password ? 'is-invalid' : ''}`}
                       id="password"
                       name="password"
-                      placeholder="At least 6 characters"
+                      placeholder="At least 8 characters, uppercase, lowercase, and a number"
                       value={formData.password}
                       onChange={handleChange}
                       disabled={isLoading}
